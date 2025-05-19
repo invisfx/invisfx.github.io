@@ -4,44 +4,145 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rafter Calculator</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #f3f4f6;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            max-width: 800px;
+            width: 100%;
+        }
+        h1 {
+            color: #2563eb;
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        h2 {
+            color: #2563eb;
+            font-size: 1.5rem;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+        .input-group {
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            color: #4b5563;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+        }
+        .error {
+            color: #dc2626;
+            text-align: center;
+            margin-bottom: 16px;
+            display: none;
+        }
+        button {
+            width: 100%;
+            background-color: #2563eb;
+            color: #ffffff;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 16px;
+        }
+        button:hover {
+            background-color: #1d4ed8;
+        }
+        .results {
+            display: none;
+        }
+        .calculation-section, .summary-section {
+            background-color: #f9fafb;
+            padding: 16px;
+            border-radius: 4px;
+            margin-bottom: 16px;
+        }
+        .calculation-section p, .summary-section p {
+            margin: 8px 0;
+            font-size: 1rem;
+        }
+        .calculation-section strong, .summary-section strong {
+            color: #1f2937;
+        }
+        @media (max-width: 640px) {
+            .container {
+                padding: 16px;
+            }
+            h1 {
+                font-size: 1.75rem;
+            }
+            h2 {
+                font-size: 1.25rem;
+            }
+            input, button {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 </head>
-<body class="bg-gray-100 flex flex-col items-center min-h-screen py-8">
-    <div class="w-full max-w-2xl bg-white rounded-lg shadow-lg p-6">
-        <h1 class="text-3xl font-bold text-center text-blue-600 mb-6">Rafter Calculator</h1>
-        <div id="error" class="hidden text-red-600 mb-4 text-center"></div>
-        <div class="grid grid-cols-1 gap-4">
-            <div>
-                <label class="block text-gray-700">Top Plate Width (inches, e.g., 5 1/2 or 5.5)</label>
-                <input id="top_plate_width" type="text" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="5 1/2">
-            </div>
-            <div>
-                <label class="block text-gray-700">Overhang (inches, e.g., 12)</label>
-                <input id="overhang" type="text" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="8">
-            </div>
-            <div>
-                <label class="block text-gray-700">Ridge Thickness (inches, e.g., 1 1/2 or 1.5)</label>
-                <input id="ridge_thickness" type="text" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="5 1/2">
-            </div>
-            <div>
-                <label class="block text-gray-700">Distance Between Frame (inches, e.g., 240)</label>
-                <input id="distance_between_frame" type="text" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="240">
-            </div>
-            <div>
-                <label class="block text-gray-700">Roof Pitch (rise over 12 inches, e.g., 6)</label>
-                <input id="pitch" type="text" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="8">
-            </div>
-            <div>
-                <label class="block text-gray-700">Rafter Width (inches, e.g., 5 1/2 or 5.5)</label>
-                <input id="rafter_width" type="text" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="5 1/2">
-            </div>
+<body>
+    <div class="container">
+        <h1>Rafter Calculator</h1>
+        <div id="error" class="error"></div>
+        <div class="input-group">
+            <label>Top Plate Width (inches, e.g., 5 1/2 or 5.5)</label>
+            <input id="top_plate_width" type="text" placeholder="5 1/2">
         </div>
-        <button onclick="calculateRafter()" class="w-full mt-6 bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition">Calculate</button>
-        <div id="results" class="mt-6 hidden">
-            <h2 class="text-2xl font-semibold text-blue-600 mb-4">Rafter Calculations</h2>
-            <div id="calculations" class="bg-gray-50 p-4 rounded"></div>
-            <h2 class="text-2xl font-semibold text-blue-600 mt-6 mb-4">Summary of Key Measurements</h2>
-            <div id="summary" class="bg-gray-50 p-4 rounded"></div>
+        <div class="input-group">
+            <label>Overhang (inches, e.g., 12)</label>
+            <input id="overhang" type="text" placeholder="8">
+        </div>
+        <div class="input-group">
+            <label>Ridge Thickness (inches, e.g., 1 1/2 or 1.5)</label>
+            <input id="ridge_thickness" type="text" placeholder="5 1/2">
+        </div>
+        <div class="input-group">
+            <label>Distance Between Frame (inches, e.g., 240)</label>
+            <input id="distance_between_frame" type="text" placeholder="240">
+        </div>
+        <div class="input-group">
+            <label>Roof Pitch (rise over 12 inches, e.g., 6)</label>
+            <input id="pitch" type="text" placeholder="8">
+        </div>
+        <div class="input-group">
+            <label>Rafter Width (inches, e.g., 5 1/2 or 5.5)</label>
+            <input id="rafter_width" type="text" placeholder="5 1/2">
+        </div>
+        <button onclick="calculateRafter()">Calculate</button>
+        <div id="results" class="results">
+            <h2>Rafter Calculations</h2>
+            <div id="calculations" class="calculation-section"></div>
+            <h2>Summary of Key Measurements</h2>
+            <div id="summary" class="summary-section"></div>
         </div>
     </div>
 
@@ -140,8 +241,8 @@
             const calculationsDiv = document.getElementById('calculations');
             const summaryDiv = document.getElementById('summary');
 
-            errorDiv.classList.add('hidden');
-            resultsDiv.classList.add('hidden');
+            errorDiv.style.display = 'none';
+            resultsDiv.style.display = 'none';
 
             try {
                 // Parse inputs
@@ -177,29 +278,29 @@
                     <p><strong>Hypotenuse (to top plate):</strong> ${toFeetInches(hypotenuse)}</p>
                     <p><strong>Birdsmouth Seat Cut Width:</strong> ${toFeetInches(seat_cut_width)}</p>
                     <p><strong>Birdsmouth Heel Cut Height:</strong> ${toFeetInches(heel_cut_height)}</p>
-                    <p><strong>Plate Hypotenuse:</strong> ${toFeetInches(plate_hypotenuse)}</p>
-                    <p><strong>Tail Rise:</strong> ${toFeetInches(tail_rise)}</p>
-                    <p><strong>Tail Hypotenuse:</strong> ${toFeetInches(tail_hypotenuse)}</p>
-                    <p><strong>Total Rafter Length:</strong> ${toFeetInches(total_rafter_length)}</p>
-                    <p><strong>Top Ridge Height:</strong> ${toFeetInches(top_ridge_height)}</p>
-                    <p><strong>Length to Cut Off Each End:</strong> ${toFeetInches(length_removed_per_end)}</p>
-                    <p><strong>Total Length Removed (Both Ends):</strong> ${toFeetInches(total_length_removed)}</p>
-                    <p><strong>Starting Rafter MIN Length:</strong> ${toFeetInches(starting_rafter_length)}</p>
-                    <p><strong>Plumb Cut Angle:</strong> ${plumb_angle * 180 / Math.PI.toFixed(2)} degrees</p>
+                    <p><strong>Plate Hypotenuse:</strong> ${to_feet_inches(plate_hypotenuse)}</p>
+                    <p><strong>Tail Rise:</strong> ${to_feet_inches(tail_rise)}</p>
+                    <p><strong>Tail Hypotenuse:</strong> ${to_feet_inches(tail_hypotenuse)}</p>
+                    <p><strong>Total Rafter Length:</strong> ${to_feet_inches(total_rafter_length)}</p>
+                    <p><strong>Top Ridge Height:</strong> ${to_feet_inches(top_ridge_height)}</p>
+                    <p><strong>Length to Cut Off Each End:</strong> ${to_feet_inches(length_removed_per_end)}</p>
+                    <p><strong>Total Length Removed (Both Ends):</strong> ${to_feet_inches(total_length_removed)}</p>
+                    <p><strong>Starting Rafter MIN Length:</strong> ${to_feet_inches(starting_rafter_length)}</p>
+                    <p><strong>Plumb Cut Angle:</strong> ${(plumb_angle * 180 / Math.PI).toFixed(2)} degrees</p>
                 `;
 
                 // Display summary
                 summaryDiv.innerHTML = `
-                    <p><strong>Plumb Cut Angle:</strong> ${plumb_angle * 180 / Math.PI.toFixed(2)} degrees</p>
-                    <p><strong>First Measurement (Hypotenuse to Top Plate):</strong> ${toFeetInches(hypotenuse)}</p>
-                    <p><strong>Second Measurement (Top Plate Hypotenuse):</strong> ${toFeetInches(plate_hypotenuse)}</p>
-                    <p><strong>Third Measurement (Tail Hypotenuse):</strong> ${toFeetInches(tail_hypotenuse)}</p>
+                    <p><strong>Plumb Cut Angle:</strong> ${(plumb_angle * 180 / Math.PI).toFixed(2)} degrees</p>
+                    <p><strong>First Measurement (Hypotenuse to Top Plate):</strong> ${to_feet_inches(hypotenuse)}</p>
+                    <p><strong>Second Measurement (Top Plate Hypotenuse):</strong> ${to_feet_inches(plate_hypotenuse)}</p>
+                    <p><strong>Third Measurement (Tail Hypotenuse):</strong> ${to_feet_inches(tail_hypotenuse)}</p>
                 `;
 
-                resultsDiv.classList.remove('hidden');
+                resultsDiv.style.display = 'block';
             } catch (e) {
                 errorDiv.textContent = e.message || 'Please enter valid numbers';
-                errorDiv.classList.remove('hidden');
+                errorDiv.style.display = 'block';
             }
         }
     </script>
