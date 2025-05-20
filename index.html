@@ -278,23 +278,23 @@
                     <p><strong>Hypotenuse (to top plate):</strong> ${toFeetInches(hypotenuse)}</p>
                     <p><strong>Birdsmouth Seat Cut Width:</strong> ${toFeetInches(seat_cut_width)}</p>
                     <p><strong>Birdsmouth Heel Cut Height:</strong> ${toFeetInches(heel_cut_height)}</p>
-                    <p><strong>Plate Hypotenuse:</strong> ${to_feet_inches(plate_hypotenuse)}</p>
-                    <p><strong>Tail Rise:</strong> ${to_feet_inches(tail_rise)}</p>
-                    <p><strong>Tail Hypotenuse:</strong> ${to_feet_inches(tail_hypotenuse)}</p>
-                    <p><strong>Total Rafter Length:</strong> ${to_feet_inches(total_rafter_length)}</p>
-                    <p><strong>Top Ridge Height:</strong> ${to_feet_inches(top_ridge_height)}</p>
-                    <p><strong>Length to Cut Off Each End:</strong> ${to_feet_inches(length_removed_per_end)}</p>
-                    <p><strong>Total Length Removed (Both Ends):</strong> ${to_feet_inches(total_length_removed)}</p>
-                    <p><strong>Starting Rafter MIN Length:</strong> ${to_feet_inches(starting_rafter_length)}</p>
+                    <p><strong>Plate Hypotenuse:</strong> ${toFeetInches(plate_hypotenuse)}</p>
+                    <p><strong>Tail Rise:</strong> ${toFeetInches(tail_rise)}</p>
+                    <p><strong>Tail Hypotenuse:</strong> ${toFeetInches(tail_hypotenuse)}</p>
+                    <p><strong>Total Rafter Length:</strong> ${toFeetInches(total_rafter_length)}</p>
+                    <p><strong>Top Ridge Height:</strong> ${toFeetInches(top_ridge_height)}</p>
+                    <p><strong>Length to Cut Off Each End:</strong> ${toFeetInches(length_removed_per_end)}</p>
+                    <p><strong>Total Length Removed (Both Ends):</strong> ${toFeetInches(total_length_removed)}</p>
+                    <p><strong>Starting Rafter MIN Length:</strong> ${toFeetInches(starting_rafter_length)}</p>
                     <p><strong>Plumb Cut Angle:</strong> ${(plumb_angle * 180 / Math.PI).toFixed(2)} degrees</p>
                 `;
 
                 // Display summary
                 summaryDiv.innerHTML = `
                     <p><strong>Plumb Cut Angle:</strong> ${(plumb_angle * 180 / Math.PI).toFixed(2)} degrees</p>
-                    <p><strong>First Measurement (Hypotenuse to Top Plate):</strong> ${to_feet_inches(hypotenuse)}</p>
-                    <p><strong>Second Measurement (Top Plate Hypotenuse):</strong> ${to_feet_inches(plate_hypotenuse)}</p>
-                    <p><strong>Third Measurement (Tail Hypotenuse):</strong> ${to_feet_inches(tail_hypotenuse)}</p>
+                    <p><strong>First Measurement (Hypotenuse to Top Plate):</strong> ${toFeetInches(hypotenuse)}</p>
+                    <p><strong>Second Measurement (Top Plate Hypotenuse):</strong> ${toFeetInches(plate_hypotenuse)}</p>
+                    <p><strong>Third Measurement (Tail Hypotenuse):</strong> ${toFeetInches(tail_hypotenuse)}</p>
                 `;
 
                 resultsDiv.style.display = 'block';
